@@ -1,0 +1,17 @@
+const jwt = require('jsonwebtoken');
+
+const DEFAULT_EXPIRY = '12h';
+
+const generateAccessToken = (userId) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
+  return jwt.sign({ sub: userId }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRY || DEFAULT_EXPIRY,
+  });
+};
+
+module.exports = {
+  generateAccessToken,
+};
